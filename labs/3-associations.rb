@@ -17,8 +17,41 @@ Activity.destroy_all
 # 1. insert 3 rows in the activities table with relationships to
 # a single salesperson and 2 different contacts
 
+salesperson = Salesperson.find_by({"first_name" => "Jim", "last_name" => "Brazeal"})
+# puts Salesperson.all.inspect
+
+contact_1 = Contact.find_by({"first_name" => "Tim", "last_name" => "Cook"})
+contact_2 = Contact.find_by({"first_name" => "Jeff", "last_name" => "Bezos"})
+# puts Contact.all.inspect
+
+new_activity1 = Activity.new
+
+new_activity1["notes"] = "Phase 1 call"
+new_activity1["salesperson_id"] = salesperson["id"]
+new_activity1["contact_id"] = contact_1["id"]
+new_activity1.save
+
+new_activity2 = Activity.new
+
+new_activity2["notes"] = "Phase 2 call"
+new_activity2["salesperson_id"] = salesperson["id"]
+new_activity2["contact_id"] = contact_1["id"]
+new_activity2.save
+
+new_activity3 = Activity.new
+
+new_activity3["notes"] = "Phase 1 call"
+new_activity3["salesperson_id"] = salesperson["id"]
+new_activity3["contact_id"] = contact_2["id"]
+new_activity3.save
+
+# puts "#{new_activity1["notes"]} #{new_activity2["id"]} #{new_activity3["id"]}"
+
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
+
+activities = Activity.where({"salesperson_id" => salesperson["id"], "contact_id" => contact_1["id"]})
+puts activities
 
 # ---------------------------------
 # Activities between Ben and Tim Cook:
@@ -36,6 +69,9 @@ Activity.destroy_all
 # Jeff Bezos - met at Blue Origin HQ
 
 # 3a. Can you include the contact's company?
+
+for activity in activities
+
 
 # ---------------------------------
 # Ben's Activities:
